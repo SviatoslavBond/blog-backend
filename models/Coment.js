@@ -18,6 +18,10 @@ const ComentSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'User',
 		required: true
+	},
+	isLiked: {
+		type: Boolean,
+		default: false,
 	}
 }, {
 	timestamps: true

@@ -12,7 +12,7 @@ class PostController {
 				user: req.userId,
 				imgUrl: req.body.imgUrl,
 			});
-			const post = await doc.save();
+			const post = await (await doc.save()).populate('user');
 			res.json(post);
 
 		} catch (error) {
@@ -117,7 +117,7 @@ class PostController {
 	async update(req, res) {
 		try {
 			const postId = req.params.id;
-			const postUpdated = await PostModel.updateOne({
+			const postUpdated = await PostModel.findByIdAndUpdate({
 				_id: postId
 			}, {
 				title: req.body.title,
@@ -125,10 +125,11 @@ class PostController {
 				tags: req.body.tags,
 				user: req.userId,
 				imgUrl: req.body.imgUrl,
-			})
-			res.json({
-				success: true
-			})
+			}, {
+				new: true
+			}
+			).populate('user');
+			res.json(postUpdated);
 		} catch (error) {
 			res.status(500).json({
 				error,

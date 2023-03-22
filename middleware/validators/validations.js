@@ -12,7 +12,8 @@ export const loginValidator = [
 ]
 
 export const comentValidator = [
-	body('text', 'Enter text of coment').isLength({ min: 3 }).isString()
+	body('text', 'Enter text of coment').isLength({ min: 3 }).isString(),
+	// body('isLiked', 'Value must be boolean type').isBoolean()
 ]
 
 export const postCreateValidation = [

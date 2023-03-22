@@ -7,7 +7,8 @@ class ComentController {
 			const doc = new ComentModel({
 				text: req.body.text,
 				post: req.body.postId,
-				user: req.userId
+				user: req.userId,
+
 			});
 			const coment = await (await doc.save()).populate('user');
 			await PostModel.findOneAndUpdate(
@@ -78,6 +79,29 @@ class ComentController {
 			res.status(500).json(error)
 		}
 	}
+	async decreaselike(req, res) {
+		try {
+			const postId = req.params.id;
+			ComentModel.findOneAndUpdate(
+				{ _id: postId },
+				{ $inc: { likeCount: -1 } },
+				{ new: true })
+				.exec((err, doc) => {
+					if (err) {
+						return res.status(500).json({
+							err,
+							message: "Не вдалося знайти коментар"
+						})
+					}
+					res.json(doc)
+				})
+
+		} catch (error) {
+			res.status(500).json(error)
+		}
+	}
+
+
 
 }
 export default new ComentController

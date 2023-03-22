@@ -1,4 +1,6 @@
 import express from 'express';
+import * as dotenv from 'dotenv'
+
 import cors from 'cors';
 import connectToDB from './utils/conectToDB.js';
 import path from 'path';
@@ -10,7 +12,8 @@ import tagsController from './controllers/tagsController.js';
 import postController from './controllers/postControlers.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const PORT = 4444;
+dotenv.config();
+console.log(process.env.PORT);
 const app = express();
 connectToDB();
 app.use(express.static(__dirname));
@@ -34,7 +37,7 @@ app.post("/upload", checkAuth, upload.single("image"), function (req, res) {
 		})
 });
 
-app.listen(process.env.PORT || PORT, (err) => {
+app.listen(process.env.PORT, (err) => {
 	if (err) {
 		return console.log(' server errror');
 	}
